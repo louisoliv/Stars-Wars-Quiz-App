@@ -60,6 +60,7 @@ class GuessesPage extends State<ChoicesGuessesWorlds> {
     return Opacity(
       opacity: 1,
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           leading: IconButton(
@@ -74,7 +75,6 @@ class GuessesPage extends State<ChoicesGuessesWorlds> {
             icon: const Icon(Icons.arrow_back, color: Colors.white),
           ),
         ),
-        drawer: Drawer(),
         backgroundColor: Colors.black,
         body: Stack(
           children: [
@@ -87,58 +87,65 @@ class GuessesPage extends State<ChoicesGuessesWorlds> {
             ),
 
             // Main content
-            SingleChildScrollView(
-              child: Padding(
-                // alignment: Alignment.center,
-                padding: const EdgeInsets.only(top: 50.0),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(12.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color.fromARGB(255, 211, 240, 233),
-                          width: 3.0,
+            Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  // alignment: Alignment.center,
+                  padding: const EdgeInsets.only(top: 50.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color.fromARGB(255, 211, 240, 233),
+                            width: 3.0,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          color: Color.fromARGB(
+                            255,
+                            26,
+                            26,
+                            29,
+                          ).withOpacity(0.7),
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        color: Color.fromARGB(255, 26, 26, 29).withOpacity(0.7),
-                      ),
-                      child: Text(
-                        "CHOOSE YOUR  NUMBER",
-                        style: TextStyle(
-                          fontFamily: 'CustomF',
-                          letterSpacing: 2,
-                          fontSize: tablet ? 37.5 : 25.0,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF64FFDA),
+                        child: Text(
+                          "CHOOSE YOUR  NUMBER",
+                          style: TextStyle(
+                            fontFamily: 'CustomF',
+                            letterSpacing: 2,
+                            fontSize: tablet ? 37.5 : 25.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF64FFDA),
+                          ),
                         ),
                       ),
-                    ),
 
-                    SizedBox(height: 50.0),
+                      SizedBox(height: 50.0),
 
-                    // First row of cards
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        DatapadCard(questionCount: 5),
-                        const SizedBox(width: 20),
-                        DatapadCard(questionCount: 10),
-                      ],
-                    ),
+                      // First row of cards
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          DatapadCard(questionCount: 5),
+                          const SizedBox(width: 20),
+                          DatapadCard(questionCount: 10),
+                        ],
+                      ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    // Second row of cards
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        DatapadCard(questionCount: 15),
-                        const SizedBox(width: 20),
-                        DatapadCard(questionCount: 20),
-                      ],
-                    ),
-                  ],
+                      // Second row of cards
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          DatapadCard(questionCount: 15),
+                          const SizedBox(width: 20),
+                          DatapadCard(questionCount: 20),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
