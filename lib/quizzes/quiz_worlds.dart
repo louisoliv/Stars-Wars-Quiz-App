@@ -268,15 +268,14 @@ class QuizWindow extends State<QuizWorlds> with SingleTickerProviderStateMixin {
     final bool tablet = isTablet(context);
 
     return Scaffold(
+      backgroundColor: Colors.transparent, // important !
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         title: Text("Guess the Star Wars World"),
         leading: IconButton(
           onPressed: () async {
-            player.play(
-              AssetSource('sounds/ui_menuBack.wav'),
-            ); // Joue sans await
+            player.play(AssetSource('sounds/ui_menuBack.wav'));
             Future.delayed(const Duration(milliseconds: 100), () {
               Navigator.of(context).pop();
             });
@@ -284,183 +283,218 @@ class QuizWindow extends State<QuizWorlds> with SingleTickerProviderStateMixin {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.black, Colors.deepPurple.shade900],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+      body: Stack(
+        children: [
+          // Dégradé en fond
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.black, Colors.deepPurple.shade900],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            randomWorld != null && availableWorlds.isNotEmpty
-                ? Column(
+          Center(
+            child: SingleChildScrollView(
+              child: Container(
+                // decoration: BoxDecoration(
+                //   gradient: LinearGradient(
+                //     colors: [Colors.black, Colors.deepPurple.shade900],
+                //     begin: Alignment.topCenter,
+                //     end: Alignment.bottomCenter,
+                //   ),
+                // ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 20.0),
+                    randomWorld != null && availableWorlds.isNotEmpty
+                        ? Column(
+                          children: [
+                            const SizedBox(height: 20.0),
 
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                      width: tablet ? 450 : 250,
-                      height: tablet ? 350 : 150,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color:
-                              animateCorrect
-                                  ? Colors.greenAccent
-                                  : Colors.transparent,
-                          width: 6,
-                        ),
-                      ),
-                      child: Image.asset(randomWorld!.image, fit: BoxFit.cover),
-                    ),
-
-                    const SizedBox(height: 20.0),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                      ), // To prevent text from touching the edges
-                      child: Text(
-                        randomWorld?.clue ?? "No more planets",
-                        textAlign: TextAlign.center,
-                        softWrap: true,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontFamily: 'Courier',
-                          letterSpacing: 2,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20.0),
-
-                    const SizedBox(height: 20.0),
-
-                    Center(
-                      child: SizedBox(
-                        width: 200.0,
-                        height: 60.0,
-                        child: TextField(
-                          controller: answerText,
-                          decoration: InputDecoration(
-                            hintText: 'Tape ta réponse...',
-                            hintStyle: TextStyle(
-                              color: Colors.greenAccent.shade100,
-                            ),
-                            filled: true,
-                            fillColor: Colors.black87,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.greenAccent,
-                                width: 2,
+                            AnimatedContainer(
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                              width: tablet ? 450 : 250,
+                              height: tablet ? 350 : 150,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color:
+                                      animateCorrect
+                                          ? Colors.greenAccent
+                                          : Colors.transparent,
+                                  width: 6,
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                randomWorld!.image,
+                                width: 200,
+                                height: 200,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+
+                            const SizedBox(height: 20.0),
+
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ), // To prevent text from touching the edges
+                              child: Flexible(
+                                child: Text(
+                                  randomWorld?.clue ?? "No more planets",
+                                  textAlign: TextAlign.center,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontFamily: 'Courier',
+                                    letterSpacing: 2,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 20.0),
+
+                            const SizedBox(height: 20.0),
+
+                            Center(
+                              child: SizedBox(
+                                width: 200.0,
+                                height: 60.0,
+                                child: TextField(
+                                  controller: answerText,
+                                  decoration: InputDecoration(
+                                    hintText: 'Tape ta réponse...',
+                                    hintStyle: TextStyle(
+                                      color: Colors.greenAccent.shade100,
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.black87,
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.greenAccent,
+                                        width: 2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.greenAccent,
+                                    fontFamily: 'Courier',
+                                    letterSpacing: 2.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 10.0),
+
+                            if (feedbackMessage.isNotEmpty)
+                              Text(
+                                feedbackMessage,
+                                style: TextStyle(
+                                  color:
+                                      feedbackMessage.startsWith("Correct")
+                                          ? Colors.green
+                                          : Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+
+                            ElevatedButton(
+                              onPressed:
+                                  isButtonEnabled
+                                      ? () {
+                                        if (counter >= guesses) return;
+
+                                        setState(() {
+                                          text =
+                                              answerText.text
+                                                  .trim()
+                                                  .toLowerCase();
+                                          answered = true;
+
+                                          if (randomWorld != null &&
+                                              randomWorld!.answer
+                                                      .toLowerCase() ==
+                                                  text) {
+                                            goodResponse++;
+                                            feedbackMessage = "Correct !";
+                                            setState(() {
+                                              animateCorrect = true;
+                                            });
+                                          } else {
+                                            badResponse++;
+                                            feedbackMessage =
+                                                "Wrong ! It was ${randomWorld?.answer}";
+                                          }
+
+                                          Future.delayed(
+                                            Duration(milliseconds: 500),
+                                            () {
+                                              setState(() {
+                                                animateCorrect = false;
+                                              });
+                                            },
+                                          );
+
+                                          counter++; // Increment after every answer
+                                          answerText.clear();
+
+                                          // Move to next question after a short delay
+                                          if (counter < guesses) {
+                                            Future.delayed(
+                                              Duration(seconds: 1),
+                                              () {
+                                                setState(() {
+                                                  feedbackMessage =
+                                                      ""; // Hide feedback before new question
+                                                  getNewWorld(); // Change the question with another wolrd
+                                                });
+                                              },
+                                            );
+                                          } else {
+                                            // Quiz terminé
+                                            Future.delayed(
+                                              Duration(seconds: 2),
+                                              () {
+                                                dialogResuslts(
+                                                  context,
+                                                  goodResponse,
+                                                  widget.guesses,
+                                                  badResponse,
+                                                );
+                                              },
+                                            );
+                                          }
+                                        });
+                                      }
+                                      : null, // Disables the button when `isButtonEnabled` is `false`
+                              child: Text("Send"),
+                            ),
+
+                            const SizedBox(height: 20.0),
+                          ],
+                        )
+                        : Center(
+                          child: Text(
+                            "NO MORE PLANETS TO GUESS",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          style: TextStyle(
-                            color: Colors.greenAccent,
-                            fontFamily: 'Courier',
-                            letterSpacing: 2.0,
-                          ),
                         ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20.0),
-
-                    if (feedbackMessage.isNotEmpty)
-                      Text(
-                        feedbackMessage,
-                        style: TextStyle(
-                          color:
-                              feedbackMessage.startsWith("Correct")
-                                  ? Colors.green
-                                  : Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-
-                    ElevatedButton(
-                      onPressed:
-                          isButtonEnabled
-                              ? () {
-                                if (counter >= guesses) return;
-
-                                setState(() {
-                                  text = answerText.text.trim().toLowerCase();
-                                  answered = true;
-
-                                  if (randomWorld != null &&
-                                      randomWorld!.answer.toLowerCase() ==
-                                          text) {
-                                    goodResponse++;
-                                    feedbackMessage = "Correct !";
-                                    setState(() {
-                                      animateCorrect = true;
-                                    });
-                                  } else {
-                                    badResponse++;
-                                    feedbackMessage =
-                                        "Wrong ! It was ${randomWorld?.answer}";
-                                  }
-
-                                  Future.delayed(
-                                    Duration(milliseconds: 500),
-                                    () {
-                                      setState(() {
-                                        animateCorrect = false;
-                                      });
-                                    },
-                                  );
-
-                                  counter++; // Increment after every answer
-                                  answerText.clear();
-
-                                  // Move to next question after a short delay
-                                  if (counter < guesses) {
-                                    Future.delayed(Duration(seconds: 1), () {
-                                      setState(() {
-                                        feedbackMessage =
-                                            ""; // Hide feedback before new question
-                                        getNewWorld(); // Change the question with another wolrd
-                                      });
-                                    });
-                                  } else {
-                                    // Quiz terminé
-                                    Future.delayed(Duration(seconds: 2), () {
-                                      dialogResuslts(
-                                        context,
-                                        goodResponse,
-                                        widget.guesses,
-                                        badResponse,
-                                      );
-                                    });
-                                  }
-                                });
-                              }
-                              : null, // Disables the button when `isButtonEnabled` is `false`
-                      child: Text("Send"),
-                    ),
-
-                    const SizedBox(height: 20.0),
                   ],
-                )
-                : Center(
-                  child: Text(
-                    "NO MORE PLANETS TO GUESS",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ),
-          ],
-        ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

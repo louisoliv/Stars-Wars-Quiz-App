@@ -56,7 +56,7 @@ class QuizWindow extends State<Quiz> {
           answered = false; // Reset for the next
         });
 
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(seconds: 2), () {
           if (counter < widget.guesses) {
             getRandomCharacter();
             timerResponseString = "";

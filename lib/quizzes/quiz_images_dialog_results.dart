@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:star_wars_quiz_app/main.dart';
 
 Future<void> dialogResuslts(
   BuildContext context,
@@ -66,8 +67,9 @@ Future<void> dialogResuslts(
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
+                  Navigator.of(context).popUntil(
+                    (route) => route.isFirst,
+                  ); // Allow to go back to the home page
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.cyanAccent,
@@ -86,6 +88,7 @@ Future<void> dialogResuslts(
                     fontWeight: FontWeight.bold,
                     fontFamily: 'CustomF',
                     letterSpacing: 1,
+                    fontSize: 16,
                   ),
                 ),
               ),

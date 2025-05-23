@@ -58,6 +58,11 @@ Future<void> dialogResuslts(
           actionsAlignment: MainAxisAlignment.center,
           actions: [
             ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).popUntil(
+                  (route) => route.isFirst,
+                ); // Allow to go back to the home page
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[100],
                 shape: RoundedRectangleBorder(
@@ -68,11 +73,6 @@ Future<void> dialogResuslts(
                   vertical: 12,
                 ),
               ),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => MyApp()),
-                );
-              },
               child: Text(
                 "Go home",
                 style: TextStyle(
